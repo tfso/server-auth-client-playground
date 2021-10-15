@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Auth Tester</title>
+    <script src="https://unpkg.com/vue@3.0.4"></script>
+
+
+    <link rel="modulepreload" href="https://unpkg.com/vue@3.0.4/dist/vue.runtime.esm-browser.js">
+    <link rel="modulepreload" href="https://unpkg.com/htm@3.0.4/dist/htm.module.js?module">
+
+    <style>
+        body { 
+            font-family: Menlo, Monaco, monospace;
+        }
+
+        .step {
+            margin: 0 0 20px 0;
+        }
+
+        .step .text {
+            padding: 10px 0;
+        }
+
+        .request .title {
+            border: 1px #888 solid;
+            font-weight: bold;
+            padding: 20px;
+        }
+
+        .request .block, .block {
+            background-color:#000; 
+            color:#fff; 
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .request .block .param {
+            padding-left: 20px;
+        }
+
+        .request button {
+            padding: 15px;
+        }
+    </style>
+
+  </head>
+  <body>
+    <div id="app"></div>
+  
+    <script type="module">
+        // https://github.com/maoberlehner/goodbye-webpack-building-vue-applications-without-webpack
+        import App from './app.js';
+
+        const application = Vue.createApp({
+            methods: {
+                onRedirect() {
+                    console.log()
+                }
+            },
+            provide: {
+
+            },
+            render: () => Vue.h(App, [
+                
+            ]),
+        });
+        
+        window.app = application.mount('#app');
+    </script>
+
+    </body>
+</html>
