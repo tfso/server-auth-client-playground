@@ -22,7 +22,7 @@ export default {
 
         return html`
             <div class="request">
-                <div class="title">Decoded Token Payload</div>
+                <div class="title">Decoded Token Payload <a target="_" href="https://jwt.io/?id_token=${this.payload}"><button class="jwt" style="top:-8px;">View on JWT.io</button></a></div>
                 <div class="block">${json}</div>
             </div>
         `

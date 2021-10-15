@@ -15,7 +15,8 @@ export default {
         title: String,
         status: Number,
         headers: Object,
-        body: Object
+        body: Object,
+        onClick: Function
     },
     render() {
         const result = []
@@ -29,6 +30,7 @@ export default {
             }
             
             result.push(html`<div style="padding:5px 0;">${json}</div>`)
+            result.push(html`<hr />`)
         }
 
         return html`
@@ -37,7 +39,7 @@ export default {
                 <div class="block">
                     ${result}
                     <div>
-                        <button onClick=${() => { this.run() }}>${this.buttonTitle ?? 'Next'}</button>
+                        <button onClick=${() => { if(this.onClick) this.onClick() }}>${this.buttonTitle ?? 'Next'}</button>
                     </div>
                 </div>
             </div>

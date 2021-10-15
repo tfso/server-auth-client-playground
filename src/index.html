@@ -16,8 +16,47 @@
             font-family: Menlo, Monaco, monospace;
         }
 
+        .playground {
+            width: 70%;
+            max-width: 986px;
+            margin: 0 auto 20px auto;
+        }
+
         .step {
-            margin: 0 0 20px 0;
+            position: relative;
+            padding-bottom: 55px;
+        }
+        
+        .step::before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            width: 1px;
+            background-color: #f8931d;
+            position: absolute;
+            left: 22px;
+            top: 44px;
+            transition: all 1s;
+        }
+
+        .step .step-number {
+            display: inline-block;
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #f8931d;
+            background-color: #fff;
+            text-align: center;
+            line-height: 40px;
+            font-size: 18px;
+            color: #f8931d;
+            transition: all 1s;
+        }
+
+        .step .step-content {
+            display: block;
+            padding-left: 65px;
         }
 
         .step .text {
@@ -31,7 +70,7 @@
         }
 
         .request .block, .block {
-            background-color:#000; 
+            background-color:#222228; 
             color:#fff; 
             padding: 20px;
             overflow-x: hidden;
@@ -39,10 +78,27 @@
 
         .request .block .param {
             padding-left: 20px;
+            width: max-content;
         }
 
         .request button {
             padding: 15px;
+        }
+
+        button.jwt {
+            float: right;
+            position: relative;
+            border-radius: 50px;
+            padding: 8px 10px;
+            padding-left: 38px;
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: #000;
+            color: #fff;
+            background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTlweCIgaGVpZ2h0PSIxOXB4IiB2aWV3Qm94PSIwIDAgMTkgMTkiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iR3JvdXAtQ29weS00IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8cG9seWdvbiBpZD0iU2hhcGUiIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMTAuODc3MzY5MyA1LjA4NzU4NTM4IDEwLjg3NzM2OTMgMS43MDUzMDI1N2UtMTMgOC4wNDQ3MjEwOCAxLjcwNTMwMjU3ZS0xMyA4LjA0NDcyMTA4IDUuMDg3NTg1MzggOS40NDIxNjA4OSA3LjAwOTU2MjA3Ij48L3BvbHlnb24+CiAgICAgICAgPHBvbHlnb24gaWQ9IlNoYXBlIiBmaWxsPSIjRkZGRkZGIiBwb2ludHM9IjguMDQ0NzIxMDggMTMuNzU1MzIzNCA4LjA0NDcyMTA4IDE4Ljg0MjkwODggMTAuODc3MzY5MyAxOC44NDI5MDg4IDEwLjg3NzM2OTMgMTMuNzU1MzIzNCA5LjQ0MjE2MDg5IDExLjgzMzM0NjciPjwvcG9seWdvbj4KICAgICAgICA8cG9seWdvbiBpZD0iU2hhcGUiIGZpbGw9IiMwMEYyRTYiIHBvaW50cz0iMTAuODc3MzY5MyAxMy43NTUzMjM0IDEzLjg2MTA5MjIgMTcuODYzMDc3NSAxNi4xMjcyMTA4IDE2LjIwNDkwMTYgMTMuMTQzNDg4IDEyLjA5NzE0NzQgMTAuODc3MzY5MyAxMS4zODExMTY5Ij48L3BvbHlnb24+CiAgICAgICAgPHBvbHlnb24gaWQ9IlNoYXBlIiBmaWxsPSIjMDBGMkU2IiBwb2ludHM9IjguMDQ0NzIxMDggNS4wODc1ODUzOCA1LjAyMzIyOTU5IDAuOTc5ODMxMjU4IDIuNzU3MTEwOTggMi42MzgwMDcyMyA1Ljc0MDgzMzgyIDYuNzQ1NzYxMzUgOC4wNDQ3MjEwOCA3LjQ2MTc5MTg4Ij48L3BvbHlnb24+CiAgICAgICAgPHBvbHlnb24gaWQ9IlNoYXBlIiBmaWxsPSIjMDBCOUYxIiBwb2ludHM9IjUuNzQwODMzODIgNi43NDU3NjEzNSAwLjkwNjQ0NzQ0NiA1LjE2Mjk1NzAxIDAuMDM3NzY4NjQzNiA3LjgzODY1MDA2IDQuODcyMTU1MDIgOS40MjE0NTQ0IDcuMTM4MjczNjMgOC42Njc3MzgwNSI+PC9wb2x5Z29uPgogICAgICAgIDxwb2x5Z29uIGlkPSJTaGFwZSIgZmlsbD0iIzAwQjlGMSIgcG9pbnRzPSIxMS43NDYwNDgyIDEwLjE3NTE3MDggMTMuMTQzNDg4IDEyLjA5NzE0NzQgMTcuOTc3ODc0MyAxMy42Nzk5NTE4IDE4Ljg0NjU1MzEgMTEuMDA0MjU4NyAxNC4wMTIxNjY4IDkuNDIxNDU0NCI+PC9wb2x5Z29uPgogICAgICAgIDxwb2x5Z29uIGlkPSJTaGFwZSIgZmlsbD0iI0Q2M0FGRiIgcG9pbnRzPSIxNC4wMTIxNjY4IDkuNDIxNDU0NCAxOC44NDY1NTMxIDcuODM4NjUwMDYgMTcuOTc3ODc0MyA1LjE2Mjk1NzAxIDEzLjE0MzQ4OCA2Ljc0NTc2MTM1IDExLjc0NjA0ODIgOC42Njc3MzgwNSI+PC9wb2x5Z29uPgogICAgICAgIDxwb2x5Z29uIGlkPSJTaGFwZSIgZmlsbD0iI0Q2M0FGRiIgcG9pbnRzPSI0Ljg3MjE1NTAyIDkuNDIxNDU0NCAwLjAzNzc2ODY0MzYgMTEuMDA0MjU4NyAwLjkwNjQ0NzQ0NiAxMy42Nzk5NTE4IDUuNzQwODMzODIgMTIuMDk3MTQ3NCA3LjEzODI3MzYzIDEwLjE3NTE3MDgiPjwvcG9seWdvbj4KICAgICAgICA8cG9seWdvbiBpZD0iU2hhcGUiIGZpbGw9IiNGQjAxNUIiIHBvaW50cz0iNS43NDA4MzM4MiAxMi4wOTcxNDc0IDIuNzU3MTEwOTggMTYuMjA0OTAxNiA1LjAyMzIyOTU5IDE3Ljg2MzA3NzUgOC4wNDQ3MjEwOCAxMy43NTUzMjM0IDguMDQ0NzIxMDggMTEuMzgxMTE2OSI+PC9wb2x5Z29uPgogICAgICAgIDxwb2x5Z29uIGlkPSJTaGFwZSIgZmlsbD0iI0ZCMDE1QiIgcG9pbnRzPSIxMy4xNDM0ODggNi43NDU3NjEzNSAxNi4xMjcyMTA4IDIuNjM4MDA3MjMgMTMuODYxMDkyMiAwLjk3OTgzMTI1OCAxMC44NzczNjkzIDUuMDg3NTg1MzggMTAuODc3MzY5MyA3LjQ2MTc5MTg4Ij48L3BvbHlnb24+CiAgICA8L2c+Cjwvc3ZnPgo=);
+            background-position: 10px center;
+            background-repeat: no-repeat;
+            background-size: 19px 19px;
         }
     </style>
 
@@ -51,24 +107,18 @@
     <div id="app"></div>
   
     <script type="module">
-        // https://github.com/maoberlehner/goodbye-webpack-building-vue-applications-without-webpack
         import App from './app.js';
 
-        const application = Vue.createApp({
-            methods: {
-                onRedirect() {
-                    console.log()
-                }
-            },
-            provide: {
+        if(window.opener && window.opener.app) {
+            // redirect from auth-provider
+            window.close()
+        }
+        else {
+            // https://github.com/maoberlehner/goodbye-webpack-building-vue-applications-without-webpack
+            const application = Vue.createApp(App) 
 
-            },
-            render: () => Vue.h(App, [
-                
-            ]),
-        });
-        
-        window.app = application.mount('#app');
+            window.app = application.mount('#app');
+        }
     </script>
 
     </body>

@@ -37,7 +37,22 @@ export default {
                     
                     default:
                         url += `?${new URLSearchParams(Object.entries(this.params))}`
-                        break
+                        
+                        const ref = window.open(url) // we want to open a browser window instead of using fetch
+                        
+                        ref.onunload = () => {
+                            if(ref.window.location.href == 'about:blank')
+                                return
+
+                            const qp = (/code|token|error/.test(ref.window.location.hash)) ? ref.window.location.hash.substring(1) : ref.window.location.search.substring(1)
+                            const params = Array.from(new URLSearchParams(qp).entries()).reduce((json, [key, value]) => {
+                                json[key] = value; return json
+                            }, {})
+                            
+                            if(this.onResponse)
+                                this.onResponse(Array.from(Object.keys(params)).length > 0 ? 200 : 400, {}, params)
+                        }
+                        return
                 }
 
                 const response = await fetch(`${this.url}`, {
@@ -92,6 +107,8 @@ export default {
             }
 
             errDescription.push(html`<div>${this.responseBody}</div>`)
+
+            errDescription.push(html`<hr />`)
         }
 
         return html`
