@@ -7,9 +7,10 @@ export default {
     name: 'Implicit',
     data() {
         return {
-            responseStatus: null, 
+            responseStatus: null,
             responseHeaders: {},
             responseBody: {},
+            state: String(Math.floor(Math.random() * 10000000000)),
             step: 0
         }
     },
@@ -25,11 +26,9 @@ export default {
     },
     methods: {
         handleResponse(status, headers, body) {
-            this.responseStatus = status
-            this.responseHeaders = headers
-            this.responseBody = body
-            
             this.step = 1
+            this.responseStatus = 200
+            this.responseBody = body
         }
     },
     render() {
@@ -37,11 +36,43 @@ export default {
 
         output.push(html`
             <div class="step">
-                <${RequestTemplate} onResponse=${this.handleResponse.bind(this)} url=${this.tokenUrl} params=${{ response_type: 'token', client_id: this.clientId, redirect_uri: window.location.href, scope: this.scope, state: Math.floor(Math.random() * 100000), license: this.license, audience: this.audience, }}><//>
+                <span class="step-number">1</span>
+                <div class="step-content">
+                    <${RequestTemplate} title="Implicit" onResponse=${this.handleResponse.bind(this)} url=${this.authorizationUrl} params=${{ response_type: 'token', client_id: this.clientId, redirect_uri: window.location.href, scope: this.scope, state: this.state, license: this.license, audience: this.audience }}><//>
+                </div>
             </div>
         `)
 
-        
+        if(this.step >= 1) {
+            // compare state as recommended
+            output.push(html`
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <div class="text">Passed state from auth server is</div>
+                        <div class="block">${this.responseBody?.state ?? '&nbsp;'}</div>
+                        ${this.responseBody?.state !== this.state ? html`Authorization may be <b style="color:red">unsafe</b>, passed state ("${this.state}") was changed or missing from auth server` : ''}
+                    
+                        <div class="text">The response from the authorize redirect, represented as JSON</div>
+                        <${ResponseTemplate} onClick=${() => this.step++} status=200 body=${this.responseBody} />
+                    </div>
+                </div>
+            `)
+        }
+
+        if(this.step >= 2) {
+            output.push(html`
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <div class="text">Congrats, you have an access token you can pass as a Bearer token i your "Authorization" header.</div>
+                        <div class="block">${this.responseBody?.access_token}</div>
+                        <div class="text">Everyone using an access token has to validate it against trusted issuers. You should only trust a defined set of issuers, and the issuer is located in the "iss" claim</div>
+                        <${Token} payload=${this.responseBody?.access_token} />
+                    </div>
+                </div>
+            `)
+        }
         
         return output
     }
