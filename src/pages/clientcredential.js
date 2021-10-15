@@ -37,14 +37,20 @@ export default {
 
         output.push(html`
             <div class="step">
-                <${RequestTemplate} onResponse=${this.handleResponse.bind(this)} contentType="application/x-www-form-urlencoded" url=${this.tokenUrl} params=${{ grant_type: 'client_credentials', client_id: this.clientId, client_secret: this.clientSecret, license: this.license, audience: this.audience }}><//>
+                <span class="step-number">1</span>
+                <div class="step-content">
+                    <${RequestTemplate} title="Client Credentials" onResponse=${this.handleResponse.bind(this)} contentType="application/x-www-form-urlencoded" url=${this.tokenUrl} params=${{ grant_type: 'client_credentials', client_id: this.clientId, client_secret: this.clientSecret, license: this.license, audience: this.audience }}><//>
+                </div>
             </div>
         `)
 
         if(this.step >= 1) {
             output.push(html`
                 <div class="step">
-                    <${ResponseTemplate} onClick=${() => this.step++} status=${this.responseStatus} headers=${this.responseHeaders} body=${this.responseBody} />
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <${ResponseTemplate} onClick=${() => this.step++} status=${this.responseStatus} headers=${this.responseHeaders} body=${this.responseBody} />
+                    </div>
                 </div>
             `)
         }
@@ -52,10 +58,13 @@ export default {
         if(this.step >= 2) {
             output.push(html`
                 <div class="step">
-                    <div class="text">Congrats, you have an access token you can pass as a Bearer token i your "Authorization" header.</div>
-                    <div class="block">${this.responseBody?.access_token}</div>
-                    <div class="text">Everyone using an access token has to validate it against trusted issuers. You should only trust a defined set of issuers, and the issuer is located in the "iss" claim</div>
-                    <${Token} payload=${this.responseBody?.access_token} />
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <div class="text">Congrats, you have an access token you can pass as a Bearer token i your "Authorization" header.</div>
+                        <div class="block">${this.responseBody?.access_token}</div>
+                        <div class="text">Everyone using an access token has to validate it against trusted issuers. You should only trust a defined set of issuers, and the issuer is located in the "iss" claim</div>
+                        <${Token} payload=${this.responseBody?.access_token} />
+                    </div>
                 </div>
             `)
         }
