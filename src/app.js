@@ -16,20 +16,38 @@ export default {
             scope: 'openid offline_access organization',
             audience: 'https://app.24sevenoffice.com',
             tokenKeys: 'https://auth.dev.tfso.io/.well-known/jwks.json',
-            license: '810957928405876'
+            license: '810957928405876',
+            mode: 'Implicit'
         };
     },
+    methods: {
+        setMode(mode) {
+            this.mode = mode
+        }
+    },
     render() {
+        let flow = html``
+
+        switch(this.mode) {
+            case 'Implicit':
+                flow = html`<${Implicit} ...${this.$data} />`; break
+            case 'AuthorizationCode':
+                flow = html`<${AuthorizationCode} ...${this.$data} />`; break
+            case 'ClientCredential':
+                flow = html`<${ClientCredential} ...${this.$data} />`; break;
+        }
+
+
         return Vue.h(html`
             <div>
                 <div class="playground">
-                    <div>
-                       
+                    <div style="padding-bottom: 50px;">
+                        <span><a href="#" onClick=${() => this.setMode('Implicit')}>Implicit</a> | <a href="#" onClick=${() => this.setMode('AuthorizationCode')}>Authorization Code</a> | <a href="#" onClick=${() => this.setMode('ClientCredential')}>Client Credentials</a></span>
+                        <h1>Auth Playground</h1>
+
                     </div>
                     <div>
-                        <!--<${Implicit} ...${this.$data} />-->
-                        <${AuthorizationCode} ...${this.$data} />
-                        <!--<${ClientCredential} ...${this.$data} />-->
+                        ${flow}
                     </div>
                 </div>
             </div>

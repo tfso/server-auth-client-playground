@@ -46,7 +46,7 @@ export default {
             <div class="step">
                 <span class="step-number">1</span>
                 <div class="step-content">
-                    <${RequestTemplate} onResponse=${this.handleRedirectResponse.bind(this)} url=${this.authorizationUrl} params=${{ response_type: 'code', client_id: this.clientId, redirect_uri: window.location.href, scope: this.scope, state: this.state, license: this.license, audience: this.audience }}><//>
+                    <${RequestTemplate} title="Authorization Code" onResponse=${this.handleRedirectResponse.bind(this)} url=${this.authorizationUrl} params=${{ response_type: 'code', client_id: this.clientId, redirect_uri: window.location.href, scope: this.scope, state: this.state, license: this.license, audience: this.audience }}><//>
                 </div>
             </div>
         `)
