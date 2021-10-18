@@ -17,46 +17,71 @@ export default {
         contentType: String,
         onResponse: Function
     },
+    computed: {
+        fetchUrl() {
+            return `${this.url}?${this.query}`
+        },
+        method() {
+            switch(this.contentType) {
+                case 'application/json':
+                    return 'POST'
+                case 'application/x-www-form-urlencoded':
+                    return 'POST'
+                default:
+                    return 'GET'
+            }
+        },
+        query() {
+            if(this.method == 'GET') {
+                return new URLSearchParams(Object.entries(this.params)).toString()
+            }
+
+            return ''
+        },
+        body() {
+            switch(this.contentType) {
+                case 'application/json':
+                    return JSON.stringify(this.params)
+                case 'application/x-www-form-urlencoded':
+                    return new URLSearchParams(Object.entries(this.params)).toString()
+                default:
+                    if(this.method == 'GET')
+                        return undefined
+
+                    return new URLSearchParams(Object.entries(this.params)).toString()
+            }
+        }
+    },
     methods: {
         async run() {
             try {
-                let url = this.url,
-                    body = undefined,
-                    method = 'GET'
+                let url = this.fetchUrl,
+                    method = this.method,
+                    body = this.body
 
-                switch(this.contentType) {
-                    case 'application/json': 
-                        method = 'POST'
-                        body = JSON.stringify(this.params)
-                        break
-
-                    case 'application/x-www-form-urlencoded':
-                        method = 'POST'
-                        body = new URLSearchParams(Object.entries(this.params))
-                        break
+                if(method == 'GET') {
+                    const ref = window.open(url) // we want to open a browser window instead of using fetch
                     
-                    default:
-                        url += `?${new URLSearchParams(Object.entries(this.params))}`
-                        
-                        const ref = window.open(url) // we want to open a browser window instead of using fetch
-                        
-                        ref.onunload = () => {
-                            if(ref.window.location.href == 'about:blank')
-                                return
+                    ref.onunload = () => {
+                        if(ref.window.location.href == 'about:blank')
+                            return
 
-                            const qp = (/code|token|error/.test(ref.window.location.hash)) ? ref.window.location.hash.substring(1) : ref.window.location.search.substring(1)
-                            const params = Array.from(new URLSearchParams(qp).entries()).reduce((json, [key, value]) => {
-                                json[key] = value; return json
-                            }, {})
-                            
-                            if(this.onResponse)
-                                this.onResponse(Array.from(Object.keys(params)).length > 0 ? 200 : 400, {}, params)
-                        }
-                        return
+                        const qp = (/code|token|error/.test(ref.window.location.hash)) ? ref.window.location.hash.substring(1) : ref.window.location.search.substring(1)
+                        const params = Array.from(new URLSearchParams(qp).entries()).reduce((json, [key, value]) => {
+                            json[key] = value; return json
+                        }, {})
+                        
+                        if(this.onResponse)
+                            this.onResponse(Array.from(Object.keys(params)).length > 0 ? 200 : 400, {}, params)
+                    }
+                    return
                 }
 
                 const response = await fetch(`${this.url}`, {
                     method,
+                    headers: {
+                        'content-type': this.contentType
+                    },
                     body
                 })
 
@@ -97,7 +122,8 @@ export default {
         }        
     },
     render() {
-        let errDescription = []
+        let errDescription = [],
+            body = ''
 
         if(this.responseStatusCode && this.responseStatusCode != 200) {
             errDescription.push(html`<div>HTTP/1.1 ${this.responseStatusCode}</div>`)
@@ -111,14 +137,41 @@ export default {
             errDescription.push(html`<hr />`)
         }
 
+        switch(this.contentType) {
+            case 'application/json':
+                body = html`
+                    <div>{</div>
+                    ${Object.entries(this.params ?? {}).map(([key, value], index) => {
+                        return html`<div class="param">${index == 0 ? '' : '&'}${key}=${value}</div>`
+                    })}
+                    <div>}</div>
+                `
+                break
+
+            case 'application/x-www-form-urlencoded':
+                body = html`
+                    ${Object.entries(this.params ?? {}).map(([key, value], index) => {
+                        return html`<div class="param" style="${index == 0 ? 'padding: 10px 0 0 0' : ''}">${index == 0 ? '' : '&'}${key}=${value}</div>`
+                    })}
+                `;
+                break
+
+            default:
+                body = html`
+                    ?
+                    ${Object.entries(this.params ?? {}).map(([key, value], index) => {
+                        return html`<div class="param">${index == 0 ? '' : '&'}${key}=${value}</div>`
+                    })}
+                `
+                break
+        }
+
         return html`
             <div class="request">
                 <div class="title">${this.title ?? 'Request'}</div>
                 <div class="block">
-                    ${this.url}?
-                    ${Object.entries(this.params ?? {}).map(([key, value], index) => {
-                        return html`<div class="param">${index == 0 ? '' : '&'}${key}=${value}</div>`
-                    })}
+                    ${this.method} ${this.url}
+                    ${body}
                     <hr />
                     ${errDescription}
                     <div>
