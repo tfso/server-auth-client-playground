@@ -86,12 +86,16 @@ export default {
                 })
 
                 if(response.ok) {
-                    if(this.onResponse) {
-                        const body = await response.text()
-                        const headers = Array.from(response.headers.entries()).reduce((h, [key, value]) => {
-                            h[key] = value; return h;
-                        }, {})
+                    const headers = Array.from(response.headers.entries()).reduce((h, [key, value]) => {
+                        h[key] = value; return h;
+                    }, {})
+                    const body = await response.text()
 
+                    this.responseStatusCode = response.status
+                    this.responseBody = body
+                    this.responseHeaders = headers
+                    
+                    if(this.onResponse) {
                         switch(headers['content-type']) {
                             case 'application/json':
                                 this.onResponse(response.status, headers, JSON.parse(body))
