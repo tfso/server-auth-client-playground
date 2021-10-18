@@ -10,7 +10,7 @@ export default {
     data() {
         return {
             authorizationUrl: 'https://auth.dev.tfso.io/authorize',
-            tokenUrl: 'https://tfso-dev.eu.auth0.com/oauth/token',
+            tokenUrl: 'https://auth.dev.tfso.io/oauth2/token',
             clientId: 'w00uUIgCyeCsIpzUcWqAIbqzh05YR9LA',
             clientSecret: '_qUvBiVaxU7gwB2A0m_uLGSsZAMAvFw9B0MXY7LqSM_ZliFlDscwNJzc0skt3iWb',
             scope: 'openid offline_access organization',
