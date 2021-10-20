@@ -11,6 +11,8 @@ export default {
             code: null,
             tokenStatus: null,
             token: null,
+            tokenHeaders: {},
+            tokenBody: null,
             state: String(Math.floor(Math.random() * 10000000000)),
             step: 0
         }
@@ -34,6 +36,8 @@ export default {
         },
         handleTokenResponse(status, headers, body) {
             this.tokenStatus = status
+            this.tokenHeaders = headers
+            this.tokenBody = body
             this.token = body.access_token
 
             this.step = 2
@@ -67,6 +71,17 @@ export default {
         }
 
         if(this.step >= 2) {
+            output.push(html`
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <${ResponseTemplate} onClick=${() => this.step++} status=${this.tokenStatus} headers=${this.tokenHeaders} body=${this.tokenBody} />
+                    </div>
+                </div>
+            `)
+        }
+
+        if(this.step >= 3) {
             output.push(html`
                 <div class="step">
                     <span class="step-number">3</span>
