@@ -16,7 +16,10 @@ export default {
         status: Number,
         headers: Object,
         body: Object,
-        onClick: Function
+        buttonTitle: String
+    },
+    emits: {
+        click: null
     },
     render() {
         const result = []
@@ -39,7 +42,7 @@ export default {
                 <div class="block">
                     ${result}
                     <div>
-                        <button onClick=${() => { if(this.onClick) this.onClick() }}>${this.buttonTitle ?? 'Next'}</button>
+                        <button onClick=${() => { this.$emit('click') }}>${this.buttonTitle ?? 'Next'}</button>
                     </div>
                 </div>
             </div>

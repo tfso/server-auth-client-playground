@@ -2,7 +2,6 @@ import html from './../utils/html.js'
 
 export default {
     name: 'RequestTemplate',
-
     data() {
         return {
             responseStatusCode: null,
@@ -15,7 +14,7 @@ export default {
         url: String,
         params: Object,
         contentType: String,
-        onResponse: Function
+        buttonTitle: String
     },
     computed: {
         fetchUrl() {
@@ -52,6 +51,14 @@ export default {
             }
         }
     },
+    emits: {
+        response(status, headers, body) {
+            if(status >= 200 && status < 600) 
+                return true
+
+            return false
+        }
+    },    
     methods: {
         async run() {
             try {
@@ -71,8 +78,7 @@ export default {
                             json[key] = value; return json
                         }, {})
                         
-                        if(this.onResponse)
-                            this.onResponse(Array.from(Object.keys(params)).length > 0 ? 200 : 400, {}, params)
+                        this.$emit('response', Array.from(Object.keys(params)).length > 0 ? 200 : 400, {}, params)
                     }
                     return
                 }
@@ -94,23 +100,21 @@ export default {
                     this.responseStatusCode = response.status
                     this.responseBody = body
                     this.responseHeaders = headers
-                    
-                    if(this.onResponse) {
-                        switch(headers['content-type']) {
-                            case 'application/json':
-                                this.onResponse(response.status, headers, JSON.parse(body))
-                                break
+                                        
+                    switch(headers['content-type']) {
+                        case 'application/json':
+                            this.$emit('response', response.status, headers, JSON.parse(body))
+                            break
 
-                            case 'application/x-www-form-urlencoded':
-                                this.onResponse(response,status, headers, new URLSearchParams(body).entries().reduce((obj, [key, value]) => { 
-                                    obj[key] = value; return obj;
-                                }, {}))
-                                break
+                        case 'application/x-www-form-urlencoded':
+                            this.$emit('response', response.status, headers, new URLSearchParams(body).entries().reduce((obj, [key, value]) => { 
+                                obj[key] = value; return obj;
+                            }, {}))
+                            break
 
-                            default:
-                                this.onResponse(response.status, headers, null)
-                                break
-                        }
+                        default:
+                            this.$emit('response', response.status, headers, null)
+                            break
                     }
                 } 
                 else {

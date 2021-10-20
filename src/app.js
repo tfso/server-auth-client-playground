@@ -27,16 +27,16 @@ export default {
     },
     render() {
         let flow = html``
+        let { mode, ...props } = this.$data
 
         switch(this.mode) {
             case 'Implicit':
-                flow = html`<${Implicit} ...${this.$data} />`; break
+                flow = html`<${Implicit} ...${props} />`; break
             case 'AuthorizationCode':
-                flow = html`<${AuthorizationCode} ...${this.$data} />`; break
+                flow = html`<${AuthorizationCode} ...${props} />`; break
             case 'ClientCredential':
-                flow = html`<${ClientCredential} ...${this.$data} />`; break;
+                flow = html`<${ClientCredential} ...${props} />`; break;
         }
-
 
         return Vue.h(html`
             <div>

@@ -54,7 +54,7 @@ export default {
                         ${this.responseBody?.state !== this.state ? html`Authorization may be <b style="color:red">unsafe</b>, passed state ("${this.state}") was changed or missing from auth server` : ''}
                     
                         <div class="text">The response from the authorize redirect, represented as JSON</div>
-                        <${ResponseTemplate} onClick=${() => this.step++} status=200 body=${this.responseBody} />
+                        <${ResponseTemplate} onClick=${() => this.step++} status=${200} body=${this.responseBody} />
                     </div>
                 </div>
             `)
