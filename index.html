@@ -81,6 +81,17 @@
             width: max-content;
         }
 
+        .request .block .param a {
+            color: #44c7f4;
+            text-decoration: none;
+        }
+
+        .request .block .param a:hover::after {
+            content: 'EDIT';
+            padding-left: 20px;
+            color: #fff;
+        }
+
         .request button {
             padding: 15px;
         }
@@ -99,6 +110,24 @@
             background-position: 10px center;
             background-repeat: no-repeat;
             background-size: 19px 19px;
+        }
+
+        .modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .modal .dialog {
+            margin: auto auto;
+            position: relative;
+            background-color: #fff;
+            box-shadow: 0 0 0 9999px rgb(0 0 0 / 50%);
+            -webkit-box-shadow: 0 0 0 9999px rgb(0 0 0 / 50%);
+            -moz-box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);;
         }
     </style>
 

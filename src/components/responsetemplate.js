@@ -3,7 +3,6 @@ import { useJson } from './../utils/json.js'
 
 export default {
     name: 'ResponseTemplate',
-
     data() {
         return {
             responseStatusCode: null,

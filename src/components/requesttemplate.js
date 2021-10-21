@@ -1,12 +1,20 @@
 import html from './../utils/html.js'
 
+import EditProperty from './editproperty.js'
+
 export default {
     name: 'RequestTemplate',
+    components: {
+        EditProperty
+    },
     data() {
         return {
             responseStatusCode: null,
             responseBody: null,
-            responseHeaders: { }
+            responseHeaders: { },
+            isEditing: false,
+            editingKey: '',
+            editingValue: ''
         }
     },
     props: {
@@ -54,6 +62,12 @@ export default {
     emits: {
         response(status, headers, body) {
             if(status >= 200 && status < 600) 
+                return true
+
+            return false
+        },
+        edit(key, value) {
+            if(typeof key == 'string' && key.length > 0) 
                 return true
 
             return false
@@ -127,7 +141,28 @@ export default {
                 this.responseBody = ex
                 console.log(ex)
             }
-        }        
+        },
+        getBodyDisplayValue(key, value) {
+            switch(key) {
+                case 'client_id':
+                case 'client_secret':
+                case 'scope':
+                case 'license':
+                case 'audience':
+                    return html`<a href="#" onClick=${() => this.openEditDialog(key, value)}>${value}</a>`
+
+                default:
+                    return value
+            }
+        },
+        openEditDialog(key, value) {
+            this.isEditing = true
+            this.editingKey = key
+            this.editingValue = value
+        },
+        handleEdit(key, value) {
+            this.$emit('edit', key, value)
+        }
     },
     render() {
         let errDescription = [],
@@ -150,7 +185,7 @@ export default {
                 body = html`
                     <div>{</div>
                     ${Object.entries(this.params ?? {}).map(([key, value], index) => {
-                        return html`<div class="param">${index == 0 ? '' : '&'}${key}=${value}</div>`
+                        return html`<div class="param">${index == 0 ? '' : '&'}${key}=${this.getBodyDisplayValue(key, value)}</div>`
                     })}
                     <div>}</div>
                 `
@@ -159,7 +194,7 @@ export default {
             case 'application/x-www-form-urlencoded':
                 body = html`
                     ${Object.entries(this.params ?? {}).map(([key, value], index) => {
-                        return html`<div class="param" style="${index == 0 ? 'padding: 10px 0 0 0' : ''}">${index == 0 ? '' : '&'}${key}=${value}</div>`
+                        return html`<div class="param" style="${index == 0 ? 'padding: 10px 0 0 0' : ''}">${index == 0 ? '' : '&'}${key}=${this.getBodyDisplayValue(key, value)}</div>`
                     })}
                 `;
                 break
@@ -168,7 +203,7 @@ export default {
                 body = html`
                     ?
                     ${Object.entries(this.params ?? {}).map(([key, value], index) => {
-                        return html`<div class="param">${index == 0 ? '' : '&'}${key}=${value}</div>`
+                        return html`<div class="param">${index == 0 ? '' : '&'}${key}=${this.getBodyDisplayValue(key, value)}</div>`
                     })}
                 `
                 break
@@ -186,6 +221,7 @@ export default {
                         <button onClick=${() => { this.run() }}>${this.buttonTitle ?? 'Next'}</button>
                     </div>
                 </div>
+                <${EditProperty} isEditing=${this.isEditing} onClose=${() => this.isEditing = false} onEdit=${this.handleEdit.bind(this)} property=${this.editingKey} value=${this.editingValue} />
             </div>
         `
     }

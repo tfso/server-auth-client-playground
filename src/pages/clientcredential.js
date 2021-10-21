@@ -3,8 +3,11 @@ import RequestTemplate from './../components/requesttemplate.js'
 import ResponseTemplate from './../components/responsetemplate.js'
 import Token from './../components/token.js'
 
+import BaseFlow from './baseflow.js'
+
 export default {
     name: 'ClientCredential',
+    extends: BaseFlow,
     data() {
         return {
             responseStatus: null, 
@@ -12,16 +15,6 @@ export default {
             responseBody: {},
             step: 0
         }
-    },
-    props: {
-        authorizationUrl: String,
-        tokenUrl: String,
-        clientId: String,
-        clientSecret: String,
-        scope: String,
-        audience: String,
-        license: String,
-        tokenKeys: String
     },
     methods: {
         handleResponse(status, headers, body) {
@@ -39,7 +32,7 @@ export default {
             <div class="step">
                 <span class="step-number">1</span>
                 <div class="step-content">
-                    <${RequestTemplate} title="Client Credentials" onResponse=${this.handleResponse.bind(this)} contentType="application/x-www-form-urlencoded" url=${this.tokenUrl} params=${{ grant_type: 'client_credentials', client_id: this.clientId, client_secret: this.clientSecret, license: this.license, audience: this.audience }}><//>
+                    <${RequestTemplate} title="Client Credentials" onEdit=${this.handleEdit.bind(this)} onResponse=${this.handleResponse.bind(this)} contentType="application/x-www-form-urlencoded" url=${this.tokenUrl} params=${{ grant_type: 'client_credentials', client_id: this.clientId, client_secret: this.clientSecret, license: this.license, audience: this.audience }}><//>
                 </div>
             </div>
         `)
@@ -49,7 +42,7 @@ export default {
                 <div class="step">
                     <span class="step-number">2</span>
                     <div class="step-content">
-                        <${ResponseTemplate} onClick=${() => this.step++} status=${this.responseStatus} headers=${this.responseHeaders} body=${this.responseBody} />
+                        <${ResponseTemplate} onEdit=${this.handleEdit.bind(this)} onClick=${() => this.step++} status=${this.responseStatus} headers=${this.responseHeaders} body=${this.responseBody} />
                     </div>
                 </div>
             `)

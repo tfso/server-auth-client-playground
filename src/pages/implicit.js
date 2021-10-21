@@ -3,8 +3,11 @@ import RequestTemplate from './../components/requesttemplate.js'
 import ResponseTemplate from './../components/responsetemplate.js'
 import Token from './../components/token.js'
 
+import BaseFlow from './baseflow.js'
+
 export default {
     name: 'Implicit',
+    extends: BaseFlow,
     data() {
         return {
             responseStatus: null,
@@ -13,16 +16,6 @@ export default {
             state: String(Math.floor(Math.random() * 10000000000)),
             step: 0
         }
-    },
-    props: {
-        authorizationUrl: String,
-        tokenUrl: String,
-        clientId: String,
-        clientSecret: String,
-        scope: String,
-        audience: String,
-        license: String,
-        tokenKeys: String
     },
     methods: {
         handleResponse(status, headers, body) {
@@ -38,7 +31,7 @@ export default {
             <div class="step">
                 <span class="step-number">1</span>
                 <div class="step-content">
-                    <${RequestTemplate} title="Implicit" onResponse=${this.handleResponse.bind(this)} url=${this.authorizationUrl} params=${{ response_type: 'token', client_id: this.clientId, redirect_uri: window.location.href, scope: this.scope, state: this.state, license: this.license, audience: this.audience }}><//>
+                    <${RequestTemplate} title="Implicit" onEdit=${this.handleEdit.bind(this)} onResponse=${this.handleResponse.bind(this)} url=${this.authorizationUrl} params=${{ response_type: 'token', client_id: this.clientId, redirect_uri: window.location.href, scope: this.scope, state: this.state, license: this.license, audience: this.audience }}><//>
                 </div>
             </div>
         `)
@@ -54,7 +47,7 @@ export default {
                         ${this.responseBody?.state !== this.state ? html`Authorization may be <b style="color:red">unsafe</b>, passed state ("${this.state}") was changed or missing from auth server` : ''}
                     
                         <div class="text">The response from the authorize redirect, represented as JSON</div>
-                        <${ResponseTemplate} onClick=${() => this.step++} status=${200} body=${this.responseBody} />
+                        <${ResponseTemplate} onEdit=${this.handleEdit.bind(this)}  onClick=${() => this.step++} status=${200} body=${this.responseBody} />
                     </div>
                 </div>
             `)

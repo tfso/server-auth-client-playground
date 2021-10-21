@@ -23,6 +23,10 @@ export default {
     methods: {
         setMode(mode) {
             this.mode = mode
+        },
+        onEdit(key, value) {
+            if(key in this.$data)
+                this.$data[key] = value
         }
     },
     render() {
@@ -31,11 +35,11 @@ export default {
 
         switch(this.mode) {
             case 'Implicit':
-                flow = html`<${Implicit} ...${props} />`; break
+                flow = html`<${Implicit} onEdit=${this.onEdit.bind(this)} ...${props} />`; break
             case 'AuthorizationCode':
-                flow = html`<${AuthorizationCode} ...${props} />`; break
+                flow = html`<${AuthorizationCode} onEdit=${this.onEdit.bind(this)} ...${props} />`; break
             case 'ClientCredential':
-                flow = html`<${ClientCredential} ...${props} />`; break;
+                flow = html`<${ClientCredential} onEdit=${this.onEdit.bind(this)} ...${props} />`; break;
         }
 
         return Vue.h(html`
