@@ -92,6 +92,28 @@
             color: #fff;
         }
 
+        .request .body {
+            overflow-x: scroll
+        }
+
+        .request .body::-webkit-scrollbar-track
+        {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            background-color: #F5F5F5;
+        }
+
+        .request .body::-webkit-scrollbar
+        {
+            width: 6px;
+            height: 6px;
+            background-color: #F5F5F5;
+        }
+
+        .request .body::-webkit-scrollbar-thumb
+        {
+            background-color: #000000;
+        }
+
         .request button {
             padding: 15px;
         }
@@ -129,6 +151,29 @@
             -webkit-box-shadow: 0 0 0 9999px rgb(0 0 0 / 50%);
             -moz-box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);;
         }
+
+        @media only screen and (max-width: 728px) {
+            .playground {
+                width: 100%;
+            }
+
+            .step .step-content {
+                padding-left: 52px;
+            }
+        }
+
+        @media only screen and (min-width: 728px) and (max-width: 868px) {
+            .playground {
+                width: 90%;
+            }
+        }
+
+        @media only screen and (min-width: 868px) and (max-width: 968px) {
+            .playground {
+                width: 80%;
+            }
+        }
+
     </style>
 
   </head>

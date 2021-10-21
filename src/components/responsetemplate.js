@@ -31,7 +31,7 @@ export default {
                 result.push(html`<div>${key}: ${value}</div>`)
             }
             
-            result.push(html`<div style="padding:5px 0;">${json}</div>`)
+            result.push(html`<div class="body" style="padding:5px 0;">${json}</div>`)
             result.push(html`<hr />`)
         }
 
