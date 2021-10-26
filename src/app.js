@@ -15,7 +15,8 @@ export default {
             clientSecret: window.sessionStorage.getItem(`tfso:auth-playground:clientSecret`) ?? '***',
             scope: window.localStorage.getItem(`tfso:auth-playground:scope`) ?? 'openid offline_access organization',
             audience: window.localStorage.getItem(`tfso:auth-playground:audience`) ?? 'https://app.24sevenoffice.com',
-            license: window.localStorage.getItem(`tfso:auth-playground:license`) ?? '810957928405876',
+            tenant: window.localStorage.getItem(`tfso:auth-playground:tenant`) ?? '810957928405876',
+            person: window.localStorage.getItem(`tfso:auth-playground:person`) ?? '82cf9f16-8366-48fc-96b0-2f683dea79bc',
             mode: 'Implicit'
         };
     },

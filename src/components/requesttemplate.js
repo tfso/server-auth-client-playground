@@ -147,7 +147,8 @@ export default {
                 case 'client_id':
                 case 'client_secret':
                 case 'scope':
-                case 'license':
+                case 'tenant':
+                case 'person':
                 case 'audience':
                     if(typeof value == 'string' && value.length == 0)
                         return html`<a href="#" onClick=${() => this.openEditDialog(key, value)}><img style="width:40px;height:1px;" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></a>`

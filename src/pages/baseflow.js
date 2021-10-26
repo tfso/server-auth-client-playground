@@ -7,7 +7,8 @@ export default {
         clientSecret: String,
         scope: String,
         audience: String,
-        license: String,
+        tenant: String,
+        person: String,
         tokenKeys: String
     },
     emits: {
