@@ -20,6 +20,7 @@ export default {
     props: {
         title: String,
         url: String,
+        type: String,
         params: Object,
         contentType: String,
         buttonTitle: String
@@ -150,6 +151,8 @@ export default {
                 case 'tenant':
                 case 'person':
                 case 'audience':
+                case 'authorizationUrl':
+                case 'tokenUrl':
                     if(typeof value == 'string' && value.length == 0)
                         return html`<a href="#" onClick=${() => this.openEditDialog(key, value)}><img style="width:40px;height:1px;" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /></a>`
 
@@ -217,7 +220,7 @@ export default {
             <div class="request">
                 <div class="title">${this.title ?? 'Request'}</div>
                 <div class="block">
-                    ${this.method} ${this.url}
+                    ${this.method} ${this.getBodyDisplayValue(this.type, this.url)}
                     ${body}
                     <hr />
                     ${errDescription}
