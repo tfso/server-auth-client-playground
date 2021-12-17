@@ -41,7 +41,11 @@ export default {
         },
         query() {
             if(this.method == 'GET') {
-                return new URLSearchParams(Object.entries(this.params)).toString()
+                return new URLSearchParams(
+                    Object
+                        .entries(this.params)
+                        .filter(([key, value]) => key.length > 0 && String(value).length > 0)
+                ).toString()
             }
 
             return ''
