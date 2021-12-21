@@ -9,6 +9,7 @@ export default {
         audience: String,
         tenant: String,
         person: String,
+        state: String,
         tokenKeys: String
     },
     emits: {

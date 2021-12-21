@@ -20,7 +20,6 @@ export default {
             refreshHeaders: {},
             refreshBody: null,
             refreshToken: null,
-            state: String(Math.floor(Math.random() * 10000000000)),
             step: 0
         }
     },

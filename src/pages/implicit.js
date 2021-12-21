@@ -13,7 +13,6 @@ export default {
             responseStatus: null,
             responseHeaders: {},
             responseBody: {},
-            state: btoa(String(Math.floor(Math.random() * 10000000000))), // this isn't good enough, but for a demo purpose it is
             step: 0
         }
     },
