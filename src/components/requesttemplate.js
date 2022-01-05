@@ -86,19 +86,27 @@ export default {
                     body = this.body
 
                 if(method == 'GET') {
-                    const ref = window.open(url) // we want to open a browser window instead of using fetch
+                    window.localStorage.setItem(window.__callbackKey, null)
+                    window.open(url) // we want to open a browser window instead of using fetch
                     
-                    ref.onunload = () => {
-                        if(ref.window.location.href == 'about:blank')
+                    const handler = () => {
+                        if(window.localStorage.getItem(window.__callbackKey) == null)
                             return
 
-                        const qp = (/code|token|error/.test(ref.window.location.hash)) ? ref.window.location.hash.substring(1) : ref.window.location.search.substring(1)
+                        const qp = window.localStorage.getItem(window.__callbackKey) //|| (/code|token|error/.test(ref.window.location.hash)) ? ref.window.location.hash.substring(1) : ref.window.location.search.substring(1)
                         const params = Array.from(new URLSearchParams(qp).entries()).reduce((json, [key, value]) => {
                             json[key] = value; return json
                         }, {})
-                        
+
+                        window.localStorage.setItem(window.__callbackKey, null)
+
                         this.$emit('response', Array.from(Object.keys(params)).length > 0 ? 200 : 400, {}, params)
+
+                        window.removeEventListener("storage", handler, true)
                     }
+
+                    window.addEventListener("storage", handler, true)
+
                     return
                 }
 
