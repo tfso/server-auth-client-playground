@@ -4,6 +4,7 @@ import {  useJson } from './utils/json.js'
 import ClientCredential from './pages/clientcredential.js'
 import AuthorizationCode from './pages/authorizationcode.js'
 import Implicit from './pages/implicit.js'
+import Auth0JS from './pages/auth0js.js'
 
 export default {
     name: 'App',
@@ -55,13 +56,15 @@ export default {
                 flow = html`<${AuthorizationCode} onEdit=${this.onEdit.bind(this)} ...${props} />`; break
             case 'ClientCredential':
                 flow = html`<${ClientCredential} onEdit=${this.onEdit.bind(this)} ...${props} />`; break;
+            case 'Auth0JS':
+                flow = html`<${Auth0JS} onEdit=${this.onEdit.bind(this)} ...${props} />`; break;
         }
 
         return Vue.h(html`
             <div>
                 <div class="playground">
                     <div style="padding-bottom: 50px;">
-                        <span><a href="#" onClick=${() => this.setMode('Implicit')}>Implicit</a> | <a href="#" onClick=${() => this.setMode('AuthorizationCode')}>Authorization Code</a> | <a href="#" onClick=${() => this.setMode('ClientCredential')}>Client Credentials</a></span>
+                        <span><a href="#" onClick=${() => this.setMode('Implicit')}>Implicit</a> | <a href="#" onClick=${() => this.setMode('AuthorizationCode')}>Authorization Code</a> | <a href="#" onClick=${() => this.setMode('ClientCredential')}>Client Credentials</a>  | <a href="#" onClick=${() => this.setMode('Auth0JS')}>Auth0 JS</a></span>
                         <h1>Auth Playground</h1>
 
                     </div>

@@ -4,8 +4,15 @@ export const useJson = (json) => {
     let output = ''
 
     const render = (obj, depth = 0) => {
-        if(!obj)
+        if(!obj) {
+            if(obj === null)
+                return 'null'
+
+            if(obj === undefined)
+                return 'undefined'
+            
             return ''
+        }
 
         switch(typeof obj) {
             case 'object':
