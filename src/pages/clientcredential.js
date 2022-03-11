@@ -32,7 +32,7 @@ export default {
             <div class="step">
                 <span class="step-number">1</span>
                 <div class="step-content">
-                    <${RequestTemplate} title="Client Credentials" onEdit=${this.handleEdit.bind(this)} onResponse=${this.handleResponse.bind(this)} contentType="application/x-www-form-urlencoded" url=${this.tokenUrl} type="tokenUrl" params=${{ grant_type: 'client_credentials', client_id: this.clientId, client_secret: this.clientSecret, tenant: this.tenant, person: this.person, audience: this.audience }}><//>
+                    <${RequestTemplate} title="Client Credentials" onEdit=${this.handleEdit.bind(this)} onResponse=${this.handleResponse.bind(this)} contentType="application/x-www-form-urlencoded" url=${this.tokenUrl} type="tokenUrl" params=${{ grant_type: 'client_credentials', client_id: this.clientId, client_secret: this.clientSecret, audience: this.audience, login_license: this.login_license, login_client: this.login_client, login_person: this.login_person }}><//>
                 </div>
             </div>
         `)

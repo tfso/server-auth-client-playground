@@ -160,8 +160,9 @@ export default {
                 case 'client_id':
                 case 'client_secret':
                 case 'scope':
-                case 'tenant':
-                case 'person':
+                case 'login_license':
+                case 'login_client':
+                case 'login_person':
                 case 'audience':
                 case 'authorizationUrl':
                 case 'tokenUrl':
