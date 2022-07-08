@@ -10,8 +10,8 @@ export default {
     name: 'App',
     data() {
         return {
-            authorizationUrl: window.localStorage.getItem(`tfso:auth-playground:authorizationUrl`) ?? 'https://auth.dev.tfso.io/authorize',
-            tokenUrl: window.localStorage.getItem(`tfso:auth-playground:tokenUrl`) ?? 'https://auth.dev.tfso.io/oauth2/token',
+            authorizationUrl: window.localStorage.getItem(`tfso:auth-playground:authorizationUrl`) ?? 'https://login.24sevenoffice.com/authorize',
+            tokenUrl: window.localStorage.getItem(`tfso:auth-playground:tokenUrl`) ?? 'https://login.24sevenoffice.com/oauth2/token',
             clientId: window.localStorage.getItem(`tfso:auth-playground:clientId`) ?? '***',
             clientSecret: window.sessionStorage.getItem(`tfso:auth-playground:clientSecret`) ?? '***',
             scope: window.localStorage.getItem(`tfso:auth-playground:scope`) ?? 'openid offline_access organization',
