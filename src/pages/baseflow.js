@@ -10,6 +10,7 @@ export default {
         login_license: String,
         login_client: String,
         login_person: String,
+        prompt: String,
         state: String,
         tokenKeys: String
     },

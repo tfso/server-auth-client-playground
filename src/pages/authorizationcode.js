@@ -57,7 +57,7 @@ export default {
             <div class="step">
                 <span class="step-number">1</span>
                 <div class="step-content">
-                    <${RequestTemplate} title="Authorization Code" onEdit=${this.handleEdit.bind(this)} onResponse=${this.handleRedirectResponse.bind(this)} url=${this.authorizationUrl} type="authorizationUrl" params=${{ response_type: 'code', client_id: this.clientId, redirect_uri: window.location.href, scope: this.scope, state: this.state, audience: this.audience, login_license: this.login_license, login_client: this.login_client, login_person: this.login_person }}><//>
+                    <${RequestTemplate} title="Authorization Code" onEdit=${this.handleEdit.bind(this)} onResponse=${this.handleRedirectResponse.bind(this)} url=${this.authorizationUrl} type="authorizationUrl" params=${{ response_type: 'code', client_id: this.clientId, redirect_uri: window.location.href, scope: this.scope, state: this.state, audience: this.audience, login_license: this.login_license, login_client: this.login_client, login_person: this.login_person, prompt: this.prompt }}><//>
                 </div>
             </div>
         `)
