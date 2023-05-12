@@ -161,7 +161,7 @@ export default {
                 case 'client_secret':
                 case 'scope':
                 case 'login_license':
-                case 'login_client':
+                case 'login_organization':
                 case 'login_person':
                 case 'audience':
                 case 'authorizationUrl':

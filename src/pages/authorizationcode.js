@@ -57,7 +57,7 @@ export default {
             <div class="step">
                 <span class="step-number">1</span>
                 <div class="step-content">
-                    <${RequestTemplate} title="Authorization Code" onEdit=${this.handleEdit.bind(this)} onResponse=${this.handleRedirectResponse.bind(this)} url=${this.authorizationUrl} type="authorizationUrl" params=${{ response_type: 'code', client_id: this.clientId, redirect_uri: window.location.href, scope: this.scope, state: this.state, audience: this.audience, login_license: this.login_license, login_client: this.login_client, login_person: this.login_person, prompt: this.prompt }}><//>
+                    <${RequestTemplate} title="Authorization Code" onEdit=${this.handleEdit.bind(this)} onResponse=${this.handleRedirectResponse.bind(this)} url=${this.authorizationUrl} type="authorizationUrl" params=${{ response_type: 'code', client_id: this.clientId, redirect_uri: window.location.href, scope: this.scope, state: this.state, audience: this.audience, login_license: this.login_license, login_organization: this.login_organization, login_person: this.login_person, prompt: this.prompt }}><//>
                 </div>
             </div>
         `)
@@ -120,7 +120,7 @@ export default {
                         <div class="text">Your refesh_token is</div>
                         <div class="block">${this.tokenBody.refresh_token ?? '&nbsp;'}</div>
                         <div class="text">This refresh_token can you store safely along with the user. You can access the Public API for that user at any time, even when the access token has expired after exchanging the refresh_token. A refresh_token may be rotated after the exchange, and you will have to update your storage with the new refresh_token</div>
-                        <${RequestTemplate} onEdit=${this.handleEdit.bind(this)} onResponse=${this.handleRefreshTokenResponse.bind(this)} contentType="application/x-www-form-urlencoded" url=${this.tokenUrl} type="tokenUrl" params=${{ grant_type: 'refresh_token', refresh_token: this.refreshToken, client_id: this.clientId, client_secret: this.clientSecret, scope: this.scope, redirect_uri: window.location.href, login_license: this.login_license, login_client: this.login_client, login_person: this.login_person }}><//>
+                        <${RequestTemplate} onEdit=${this.handleEdit.bind(this)} onResponse=${this.handleRefreshTokenResponse.bind(this)} contentType="application/x-www-form-urlencoded" url=${this.tokenUrl} type="tokenUrl" params=${{ grant_type: 'refresh_token', refresh_token: this.refreshToken, client_id: this.clientId, client_secret: this.clientSecret, scope: this.scope, redirect_uri: window.location.href, login_license: this.login_license, login_organization: this.login_organization, login_person: this.login_person }}><//>
                     </div>
                 </div>
             `)

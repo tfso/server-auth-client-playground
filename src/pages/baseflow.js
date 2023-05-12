@@ -8,7 +8,7 @@ export default {
         scope: String,
         audience: String,
         login_license: String,
-        login_client: String,
+        login_organization: String,
         login_person: String,
         prompt: String,
         state: String,
