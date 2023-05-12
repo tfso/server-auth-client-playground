@@ -15,13 +15,13 @@ export default {
             clientId: window.localStorage.getItem(`tfso:auth-playground:clientId`) ?? '***',
             clientSecret: window.sessionStorage.getItem(`tfso:auth-playground:clientSecret`) ?? '***',
             scope: window.localStorage.getItem(`tfso:auth-playground:scope`) ?? 'openid offline_access organization',
-            audience: window.localStorage.getItem(`tfso:auth-playground:audience`) ?? 'https://app.24sevenoffice.com',
+            audience: window.localStorage.getItem(`tfso:auth-playground:audience`) ?? 'https://api.24sevenoffice.com',
             login_license: window.localStorage.getItem(`tfso:auth-playground:license`) ?? '',
             login_organization: window.localStorage.getItem(`tfso:auth-playground:client`) ?? '',
             login_person: window.localStorage.getItem(`tfso:auth-playground:person`) ?? '',
             prompt: window.localStorage.getItem(`tfso:auth-playground:prompt`) ?? '',
             state: btoa(String(Math.floor(Math.random() * 10000000000))), // this isn't good enough, but for a demo purpose it is
-            mode: 'Implicit'
+            mode: 'ClientCredential'
         };
     },
     methods: {
@@ -66,7 +66,7 @@ export default {
             <div>
                 <div class="playground">
                     <div style="padding-bottom: 50px;">
-                        <span><a href="#" onClick=${() => this.setMode('Implicit')}>Implicit</a> | <a href="#" onClick=${() => this.setMode('AuthorizationCode')}>Authorization Code</a> | <a href="#" onClick=${() => this.setMode('ClientCredential')}>Client Credentials</a>  | <a href="#" onClick=${() => this.setMode('Auth0JS')}>Auth0 JS</a></span>
+                        <span><a href="#" onClick=${() => this.setMode('ClientCredential')}>Client Credentials</a> | <a href="#" onClick=${() => this.setMode('Implicit')}>Implicit</a> | <a href="#" onClick=${() => this.setMode('AuthorizationCode')}>Authorization Code</a> |  <a href="#" onClick=${() => this.setMode('Auth0JS')}>Auth0 JS</a></span>
                         <h1>Auth Playground</h1>
 
                     </div>
